@@ -164,31 +164,15 @@ var app = {
 					//console.log('Inserted all rows');
 				});
 			}, 'jsonp');
-			
-			data = {};
-			data.club_id = club_id;
-			data.user_id = user.id;
-			$.get(app.apiUrl + '?action=getUserDiary', data, function(result) {
-				
-				db.transaction(function(tx) {
-					$.each(result, function(i, item) {
-					
-						var statement = "INSERT INTO DIARY (day, month, year, package, training_day, length, plan_name, day_name, day_data, type, synced) VALUES ('" + item.day + "', '" + item.month + "', '" + item.year + "'," + item.package + ", " + item.training_day + ", '" + item.length + "', '" + item.plan_name + "', '" + item.day_name + "', '" + item.day_data + "', '" + item.type + "', 1)";
-						//console.log(statement);
-						tx.executeSql(statement);
-					
-				   	});
-				}, errorCB, function() {
-					//console.log('Inserted all rows');
-				});
-			}, 'jsonp');
 		
 			
 		}
 		//requires us to be online
 		var con = checkConnection();
 		if (con != 'No') {
-		
+			
+			if(first)
+			
 			//CATS
 			data = {};
 			data.club_id = club_id;
@@ -713,6 +697,27 @@ var app = {
 	initLogged: function() {
 		db = window.openDatabase("fitness", "1.0", "Fitness DB", 5000000);
 		app.syncData();
+		data = {};
+		data.club_id = club_id;
+		data.user_id = user.id;
+		$.get(app.apiUrl + '?action=getUserDiary', data, function(result) {
+			
+			db.transaction(function(tx) {
+			
+				tx.executeSql('DROP TABLE IF EXISTS DIARY');
+				tx.executeSql('CREATE TABLE IF NOT EXISTS DIARY (id INTEGER PRIMARY KEY AUTOINCREMENT, day, month, year, package, training_day, length, plan_name, day_name, day_data, type, synced INTEGER)');
+			
+				$.each(result, function(i, item) {
+				
+					var statement = "INSERT INTO DIARY (day, month, year, package, training_day, length, plan_name, day_name, day_data, type, synced) VALUES ('" + item.day + "', '" + item.month + "', '" + item.year + "'," + item.package + ", " + item.training_day + ", '" + item.length + "', '" + item.plan_name + "', '" + item.day_name + "', '" + item.day_data + "', '" + item.type + "', 1)";
+					//console.log(statement);
+					tx.executeSql(statement);
+				
+			   	});
+			}, errorCB, function() {
+				//console.log('Inserted all rows');
+			});
+		}, 'jsonp');
 	},
 	
 	initHome: function() {
@@ -725,12 +730,6 @@ var app = {
 			$('#homepage').find('.notification').show();
 		} else {
 			$('#homepage').find('.notification').hide();
-		}
-		console.log(packs.hasSpecialOffers);
-		if(packs.hasSpecialOffers) {
-			$('#homepage').find('.pakkumised').show();
-		} else {
-			$('#homepage').find('.pakkumised').hide();
 		}
 		
 		if (curDay = localStorage.getObject('fitCurDay')) {
@@ -834,6 +833,13 @@ var app = {
 			meH = Number($('.me:last').height());
 			curH = windowH - topH - bottomH - meH;
 			$('.toscroll').height(curH);
+			
+			console.log(packs.hasSpecialOffers);
+			if(packs.hasSpecialOffers) {
+				$('#homepage').find('.pakkumised').show();
+			} else {
+				$('#homepage').find('.pakkumised').hide();
+			}
 			
 		}, timing);
 		
