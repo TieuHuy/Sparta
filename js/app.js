@@ -171,8 +171,6 @@ var app = {
 		var con = checkConnection();
 		if (con != 'No') {
 			
-			if(first)
-			
 			//CATS
 			data = {};
 			data.club_id = club_id;
