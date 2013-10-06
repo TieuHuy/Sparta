@@ -161,10 +161,10 @@ body{
 }
 
 .front{
-	background-image: url(../i/bg1.jpg);
+	background-image: url(../i/mbg1.jpg);
 }
 .login{
-	background-image: url(../i/bg2.jpg);
+	background-image: url(../i/mbg2.jpg);
 }
 
 .bottombar{
@@ -1769,8 +1769,8 @@ video{
 
 
 .trainingbg{
-	background: url(../i/bg3.jpg) no-repeat center top #000; 
-	background-size: cover;
+	/*background: url(../i/mbg3.jpg) no-repeat center top #000; 
+	background-size: cover;*/
 }
 
 
@@ -2013,10 +2013,10 @@ div.icon_select {
   font-weight: normal;
   line-height: 14px;
   padding: 4px 2px;
-  height: 43px;
+  height: 39px;
 }
 .box33 h4.name{
-  height: 43px;
+  height: 39px;
   overflow: hidden;
   word-wrap: break-word; 
 }

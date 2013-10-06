@@ -2310,7 +2310,7 @@ function deliverError(msg, url, line) {
 	//console.log(msg);
 	//console.log(url);
 	//console.log(line);
-	alert(msg + ' ja ' + url + ' ja ' + line);
+	console.log('ERROR: ' +msg + ' ja ' + url + ' ja ' + line);
 }
 
 window.onerror = function (msg, url, line) {
