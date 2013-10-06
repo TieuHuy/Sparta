@@ -52,7 +52,7 @@ var app = {
 		setTimeout(function() {
 			//console.log('starting fb init');
 			try {
-				FB.init({ appId: "161092774064906", nativeInterface: CDV.FB, useCachedDialogs: false });
+				FB.init({ appId: "483420088422609", nativeInterface: CDV.FB, useCachedDialogs: false });
 			} catch (e) {
 				deliverError(e, 'app.js', '216');
 			}
