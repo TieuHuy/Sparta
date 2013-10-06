@@ -329,11 +329,20 @@
 		    	
 		    }
 		    function onBackButton(e) {
+		 
 			    e.preventDefault();
 				//if in subpage trigger correct 
 				console.log(LEVEL);
-				if (LEVEL != 0) {
-					goBack();
+				if (LEVEL > 1) {
+					$('#topbar .backbtn').click();
+				} else if(LEVEL == 1) {
+					if(LATEST == '#homepage') {
+						LEVEL = 0;
+						teleportMe('frontpage');
+					} else {
+						LEVEL = 1;
+						teleportMe('homepage');
+					}
 				} else {
 					navigator.app.exitApp();
 				}

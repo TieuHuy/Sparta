@@ -2321,6 +2321,23 @@ function deliverError(msg, url, line) {
 	//console.log(msg);
 	//console.log(url);
 	//console.log(line);
+	if (window.device.platform != 'Generic') {
+   		error_data = {};
+	   	error_data.function = app.curFunction;
+	   	error_data.error = msg;
+	   	error_data.file = url;
+	   	error_data.line = line;
+	   
+	   	error_data.device_name = window.device.name;
+	   	error_data.device_platform = window.device.platform;
+	   	error_data.device_version = window.device.version;
+	   
+	   	error_data.data = {};
+	   	error_data.data.data = data;
+	   	error_data.data.user = user;
+	   
+	   	$.get(app.apiUrl + '?action=reportAnError', error_data, function(result) {}, 'jsonp');
+	}
 	console.log('ERROR: ' +msg + ' ja ' + url + ' ja ' + line);
 }
 
