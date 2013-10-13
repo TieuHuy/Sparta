@@ -33,8 +33,8 @@ var trainer = {};
 
 var app = {
 	
-	apiUrl: 'http://projects.efley.ee/fitnessapp/api/server.php',
-	serverUrl: 'http://projects.efley.ee/fitnessapp/admin/',
+	apiUrl: 'http://www.fitnessmobile.ee/api/server.php',
+	serverUrl: 'http://www.fitnessmobile.ee/admin/',
 	curFunction: 'do not know..',
 	exerciseCat: 0,
 	muscleGroup: false,
@@ -165,6 +165,7 @@ var app = {
 				});
 			}, 'jsonp');
 		
+			localStorage.setItem('fitNotFirstTime', true);
 			
 		}
 		//requires us to be online
@@ -180,13 +181,9 @@ var app = {
 				$.each(result, function(i, cat) {
 					cats.push(cat.category);
 				});
-				if (!localStorage.getItem('fitNotFirstTime')) {
-					localStorage.setItem('fitNotFirstTime', true);
-					//console.log('SET');
+				if (firstLoad) {
 					app.downloadPics('categories', cats);
-					
 				}
-				
 			}, 'jsonp');
 			
 			/*
@@ -1712,21 +1709,23 @@ var app = {
 							$('#askClubNr').addClass('scaleIn');
 						}, 100);
 					} 
-					
-					$('#askMeeting').find('.date').unbind('click');
-					$('#askMeeting').find('.date').click(function(e) {
-						addHover(this);
-						app.packageMeeting = $(this).data('date');
-						$('#askMeeting').removeClass('scale');
+					if (parseInt(template.personal_trainings) > 0) {
+						$('#askMeeting').find('.date').unbind('click');
+						$('#askMeeting').find('.date').click(function(e) {
+							addHover(this);
+							app.packageMeeting = $(this).data('date');
+							$('#askMeeting').removeClass('scale');
+							setTimeout(function () {
+								$('#askMeeting').removeClass('scaleIn');
+							}, 100);
+						});
+						$('#askMeeting').addClass('scale');
 						setTimeout(function () {
-							$('#askMeeting').removeClass('scaleIn');
+							$('#askMeeting').addClass('scaleIn');
 						}, 100);
-					});
-					$('#askMeeting').addClass('scale');
-					setTimeout(function () {
-						$('#askMeeting').addClass('scaleIn');
-					}, 100);
-				
+					} else {
+						app.packageMeeting = '';
+					}
 					addHover(this);
 					user.firstname = $('#firstname').val();
 					user.lastname = $('#lastname').val();
@@ -1897,7 +1896,7 @@ var app = {
 				if(items[id].sale && items[id].sale != '0')
 					$('#overlay').find('#voucher').find('span').html(items[id].sale + '%');
 				else
-					$('#overlay').find('#voucher').find('span').html('');
+					$('#overlay').find('#voucher').hide();
 				$('#overlay').find('h4').html('');
 				$('#overlay').find('p').html(items[id].description);
 				
