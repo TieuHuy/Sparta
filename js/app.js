@@ -1038,6 +1038,29 @@ var app = {
 		content.html('');
 		template = $('.module-template');
 		template.hide();
+		
+		if ($('.muscleslist').length > 1) {
+			console.log('got one that doesnt belong here..');
+			$('.muscleslist:last').parent().remove();
+		}
+		
+		if (app.muscleGroup) {
+			setTimeout(function() {
+				$('#harjutused').find('h3:first').html(translations[lang]['exercises'] + ' | ' + muscle_groups[app.muscleGroup] + '&nbsp;&nbsp;');
+				$('.lihasname').html(muscle_groups[app.muscleGroup]);
+				$('#thefilter g').each(function(i, item) {
+					if (parseInt($(item).data('muscle')) == parseInt(app.muscleGroup)) {
+						if ($(item).attr('class').indexOf("pathOver") === -1) {
+							$(item).click();
+							$('#harjutused').find('h3:first').html(translations[lang]['exercises'] + ' | ' + muscle_groups[app.muscleGroup] + '&nbsp;&nbsp;');
+						}
+					}
+						
+				});
+			}, 600);
+			
+		}
+		
 		//console.log(result);
    		$.each(result, function(i, item) {
    		
@@ -1168,14 +1191,7 @@ var app = {
 				
 				//console.log(sPath);
 				
-					$('#video').find('.video-container').html('<video id="video" height="41%" width="100%" controls="" preload="" autoplay=""  ><source src="' + videoLink + '"></video>');
-					
-					setTimeout(function() {
-						//document.getElementById("video").play();
-						//document.getElementById("video").onClick(function() {
-						//	this.play();
-						//});
-					}, 500);
+					$('#video').find('.video-container').html('<video id="video" height="41%" width="100%" controls="" preload="" autoplay="" onclick="this.play();" onload="this.play();"><source src="' + videoLink + '"></video>');
 					
 				
 			}, function(tx, results) {
@@ -1857,7 +1873,7 @@ var app = {
 						$('.popup').removeClass('pophide');
 						$('.popup').addClass('popshow');
 					}, 500);
-					
+					$('.bank-link').unbind('click');
 					$('.bank-link').click(function(e) {
 						e.preventDefault();
 						addHover(this);
