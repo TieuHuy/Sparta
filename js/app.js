@@ -181,10 +181,10 @@ var app = {
 				$.each(result, function(i, cat) {
 					cats.push(cat.category);
 				});
-				if (firstLoad) {
+				//if (firstLoad) {
 					app.downloadPics('categories', cats);
 					firstLoad = false;
-				}
+				//}
 			}, 'jsonp');
 			
 			/*
