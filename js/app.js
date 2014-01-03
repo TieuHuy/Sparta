@@ -58,6 +58,9 @@ var app = {
 			}
 			
 		}, 1500);
+		
+		db = window.openDatabase("sparta new", "1.0", "Fitness DB", 5000000);
+		
 		//lang = 'en';
 		//localStorage.removeItem('fit_lang');
 		if (localStorage.getItem('fit_lang')) {
@@ -691,7 +694,7 @@ var app = {
 	},
 	
 	initLogged: function() {
-		db = window.openDatabase("fitness", "1.0", "Fitness DB", 5000000);
+
 		app.syncData();
 		data = {};
 		data.club_id = club_id;
